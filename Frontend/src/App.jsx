@@ -1,14 +1,21 @@
 import { useState } from 'react'
 import axios from "axios"
 import * as XLSX from "xlsx"
+import { useNavigate } from 'react-router-dom'
+
 function App() {
   const [msg, setmsg] = useState("")
   const [status, setstatus] = useState(false)
   const [emailList, setemailList] = useState([])
   const isDisabled = msg.trim() === "" || emailList.length === 0
-  function handleMsg(evt) {
+  const navigate = useNavigate()
 
+  function handleMsg(evt) {
     setmsg(evt.target.value)
+  }
+
+  function handleHistory() {
+    navigate("/history")
   }
 
   function send() {
@@ -53,8 +60,9 @@ function App() {
 
   return (
     <div >
-      <div className='bg-blue-950 text-white text-center '>
-        <h1 className='text-2xl font-medium px-5 py-3'>BulkMail </h1>
+      <div className="bg-blue-950 text-white relative py-3">
+        <h1 className="text-4xl font-bold text-center">BulkMail</h1>
+        <h2 onClick={handleHistory} className="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer">History</h2>
       </div>
       <div className='bg-blue-800 text-white text-center '>
         <h1 className='font-medium px-5 py-3'>We can help your buisness send multiple emails at once </h1>
@@ -74,7 +82,7 @@ function App() {
           disabled={isDisabled || status}
           className={`
                   text-white font-medium rounded-2xl px-5 py-3 mt-3
-                  ${isDisabled || status? "bg-gray-500 cursor-not-allowed"
+                  ${isDisabled || status ? "bg-gray-500 cursor-not-allowed"
               : "bg-blue-950 cursor-pointer hover:bg-blue-900"}
   `}
         >{status ? "Sending.." : "Send"}</button>
